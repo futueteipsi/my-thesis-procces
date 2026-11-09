@@ -6,9 +6,8 @@ time_steps = 100;
 density = 0.85;
 initial_infected = 5;
 
-% Пороговые детерминированные параметры:
-threshold_infected = 2; % Сколько больных соседей нужно для гарантированного заражения
-recovery_time = 10;     % Через сколько тактов больной становится иммунным
+threshold_infected = 2; 
+recovery_time = 10;     
 
 % initialization
 grid = ones(grid_size, grid_size);
@@ -18,20 +17,19 @@ num_people = round(num_cells * density);
 people_indices = randperm(num_cells, num_people);
 grid(people_indices) = 0;
 
-% Матрица для отслеживания времени болезни каждой ячейки
+% матрица для отслеживания времени болезни каждой ячейки
 infection_time = zeros(grid_size, grid_size);
+margin = 3;
 
-margin = 3; % Отступ от краев сетки, чтобы группа поместилась
-
-% Выбираем случайные координаты X и Y для центра очага
+% случайные координаты X и Y
 center_x = randi([margin + 1, grid_size - margin]);
 center_y = randi([margin + 1, grid_size - margin]);
 
-% Заражаем группу 3x3 человека вокруг этой случайной точки
+% заражаем группу 3x3 человека вокруг этой случайной точки
 for dx = -1:1
     for dy = -1:1
-        grid(center_x + dx, center_y + dy) = 2;          % Ставим больного (2)
-        infection_time(center_x + dx, center_y + dy) = 1; % Начинаем отсчет времени
+        grid(center_x + dx, center_y + dy) = 2;        
+        infection_time(center_x + dx, center_y + dy) = 1; 
     end
 end
 
@@ -127,7 +125,6 @@ for t = 1:time_steps
         end
     end
     
-    % Синхронное обновление
     grid = new_grid;
     infection_time = new_infection_time;
 end
